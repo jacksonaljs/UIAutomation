@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
+import android.widget.LinearLayout;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,30 +24,42 @@ import androidx.test.uiautomator.UiScrollable;
 import androidx.test.uiautomator.UiSelector;
 import androidx.test.uiautomator.Until;
 
+import static com.anarock.uiautomation.Utils.PACKAGE_NAME_PREFIX;
+
 @RunWith(AndroidJUnit4.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
 public class Stories {
     private  UiDevice device;
-    public int matchCount;
 
     @Before
-    public void setup() throws UiObjectNotFoundException {
-        device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        Context context = InstrumentationRegistry.getContext();
-        final Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.dialectic.brokernetworkapp",
-                "com.anarock.brokernetworkapp.ui.SplashActivity"));
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-        device.wait(Until.hasObject(By.pkg("com.dialectic.brokernetworks").depth(0)),
-                2000);
+    public void setup() {
+        device = Utils.beforeClass();
     }
 
     @Test
-    public void test1PostRentPropertyMatchCount() throws UiObjectNotFoundException {
-        device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "list_matches")
-                .childSelector(new UiSelector().index(1))).click();
+    public void storiesView() throws UiObjectNotFoundException {
+        UiSelector firstStoryUiObject = new UiSelector().resourceId(PACKAGE_NAME_PREFIX + "list_matches")
+                .childSelector(new UiSelector().index(0).className("android.support.v7.widget.RecyclerView"))
+                .childSelector(new UiSelector().index(0).className("android.widget.LinearLayout"));
+
+        String storyTitle = device.findObject(firstStoryUiObject.childSelector(new UiSelector().resourceId(PACKAGE_NAME_PREFIX + "caption"))).getText();
+
+        device.findObject(firstStoryUiObject).click();
+        device.wait(Until.findObject(By.text(storyTitle)), 2000);
+        device.findObject(new UiSelector().resourceId(PACKAGE_NAME_PREFIX + "save_story")).click();
+        device.pressBack();
+        device.findObject(By.text("MORE")).click();
+        device.findObject(new UiSelector().resourceId(PACKAGE_NAME_PREFIX + "lbl_projects_and_offers")).click();
+        device.findObject(By.text("FAVORITES")).click();
+        String favTitleMatch = device.findObject(new UiSelector().resourceId(PACKAGE_NAME_PREFIX + "recyclerView").clickable(true)
+                .childSelector(new UiSelector().index(0).className("android.support.v7.widget.CardView"))
+                .childSelector(new UiSelector().resourceId(PACKAGE_NAME_PREFIX + "lbl_title"))).getText();
+        Assert.assertEquals("Story should have had been found with Title " +storyTitle, storyTitle, favTitleMatch);
+        device.findObject(new UiSelector().resourceId(PACKAGE_NAME_PREFIX + "recyclerView").clickable(true)
+                .childSelector(new UiSelector().index(0).className("android.support.v7.widget.CardView"))).click();
+
+
+
+
     }
 }

@@ -29,17 +29,8 @@ public class CreateNewPost {
     public int matchCount;
 
     @Before
-    public void setup() throws UiObjectNotFoundException {
-        device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        Context context = InstrumentationRegistry.getContext();
-        final Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.dialectic.brokernetworkapp",
-                "com.anarock.brokernetworkapp.ui.SplashActivity"));
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-        device.wait(Until.hasObject(By.pkg("com.dialectic.brokernetworks").depth(0)),
-                2000);
+    public void setup() {
+        device = Utils.beforeClass();
     }
 
     @Test
@@ -57,6 +48,9 @@ public class CreateNewPost {
         device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "txt_pricing")).click();
         device.findObject(By.text("2")).click();
         device.findObject(By.text("5")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
         device.findObject(By.text("Done")).click();
         device.wait(Until.findObject(By.text("No")), 2000);
         device.findObject(By.text("No")).click();
@@ -84,6 +78,8 @@ public class CreateNewPost {
             Assert.assertEquals("Match Count", matchCount, finalMatches);
         }
         device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "btn_close")).click();
+
+        Utils.markPostExpired(device);
     }
 
     @Test
@@ -101,6 +97,9 @@ public class CreateNewPost {
         device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "txt_pricing")).click();
         device.findObject(By.text("2")).click();
         device.findObject(By.text("5")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
         device.findObject(By.text("Done")).click();
         device.wait(Until.findObject(By.text("No")), 2000);
         device.findObject(By.text("No")).click();
@@ -132,6 +131,8 @@ public class CreateNewPost {
             Assert.assertEquals("Broker Count", brokerCount, childBrokerCount);
             device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "btn_close")).click();
         }
+
+        Utils.markPostExpired(device);
     }
 
 
@@ -149,6 +150,11 @@ public class CreateNewPost {
             device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "txt_pricing")).click();
             device.findObject(By.text("7")).click();
             device.findObject(By.text("5")).click();
+            device.findObject(By.text("0")).click();
+            device.findObject(By.text("0")).click();
+            device.findObject(By.text("0")).click();
+            device.findObject(By.text("0")).click();
+            device.findObject(By.text("0")).click();
             device.findObject(By.text("Done")).click();
             device.wait(Until.findObject(By.text("sq ft")), 2000);
             device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "txt_carpet_area")
@@ -178,6 +184,8 @@ public class CreateNewPost {
                 Assert.assertEquals("Match Count", matchCount, finalMatches);
             }
             device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "btn_close")).click();
+
+            Utils.markPostExpired(device);
     }
 
     @Test
@@ -194,6 +202,11 @@ public class CreateNewPost {
         device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "txt_pricing")).click();
         device.findObject(By.text("7")).click();
         device.findObject(By.text("5")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
         device.findObject(By.text("Done")).click();
         device.wait(Until.findObject(By.text("sq ft")), 2000);
         device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "txt_carpet_area")
@@ -229,5 +242,7 @@ public class CreateNewPost {
             Assert.assertEquals("Broker Count", brokerCount, childBrokerCount);
             device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "btn_close")).click();
         }
+
+        Utils.markPostExpired(device);
     }
 }

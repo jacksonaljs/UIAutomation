@@ -25,17 +25,8 @@ public class ProjectConnect {
     private  UiDevice device;
 
     @Before
-    public void setup() throws UiObjectNotFoundException {
-        device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        Context context = InstrumentationRegistry.getContext();
-        final Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.dialectic.brokernetworkapp",
-                "com.anarock.brokernetworkapp.ui.SplashActivity"));
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-        device.wait(Until.hasObject(By.pkg("com.dialectic.brokernetworks").depth(0)),
-                2000);
+    public void setup() {
+        device = Utils.beforeClass();
     }
 
     @Test

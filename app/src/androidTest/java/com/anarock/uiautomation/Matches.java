@@ -28,17 +28,8 @@ public class Matches {
     private  UiDevice device;
 
     @Before
-    public void setup() throws UiObjectNotFoundException {
-        device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        Context context = InstrumentationRegistry.getContext();
-        final Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.dialectic.brokernetworkapp",
-                "com.anarock.brokernetworkapp.ui.SplashActivity"));
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-        device.wait(Until.hasObject(By.pkg("com.dialectic.brokernetworks").depth(0)),
-                2000);
+    public void setup() {
+        device = Utils.beforeClass();
     }
 
     @Test
@@ -56,6 +47,9 @@ public class Matches {
         device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "txt_pricing")).click();
         device.findObject(By.text("2")).click();
         device.findObject(By.text("5")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
         device.findObject(By.text("Done")).click();
         device.wait(Until.findObject(By.text("Yes")), 2000);
         device.findObject(By.text("Yes")).click();
@@ -72,6 +66,9 @@ public class Matches {
         Assert.assertNotEquals("Test Case Failed...No Match found", "no", matchNameString.toLowerCase());
         String postMatchName = device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "lbl_name")).getText();
         Assert.assertEquals("Test Case Failed...Match should have had been found with", "dialectic test", postMatchName.toLowerCase());
+
+        device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "btn_close")).click();
+        Utils.markPostExpired(device);
     }
 
     @Test
@@ -89,6 +86,11 @@ public class Matches {
         device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "txt_pricing")).click();
         device.findObject(By.text("7")).click();
         device.findObject(By.text("5")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
         device.findObject(By.text("Done")).click();
         device.wait(Until.findObject(By.text("sq ft")), 2000);
         device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "txt_carpet_area")
@@ -107,6 +109,9 @@ public class Matches {
         Assert.assertNotEquals("Test Case Failed...No Match found", "no", matchNameString.toLowerCase());
         String postMatchName = device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "lbl_name")).getText();
         Assert.assertEquals("Test Case Failed...Match should have had been found with", "dialectic test", postMatchName.toLowerCase());
+
+        device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "btn_close")).click();
+        Utils.markPostExpired(device);
     }
 
     @Test
@@ -129,6 +134,9 @@ public class Matches {
                 .childSelector(new UiSelector().index(1))).click();
         device.findObject(By.text("2")).click();
         device.findObject(By.text("5")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
         clickButton(device);
         device.wait(Until.findObject(By.text("Building Names")), 2000);
         device.findObject(By.text("ADD BUILDING")).click();
@@ -146,7 +154,10 @@ public class Matches {
         device.wait(Until.findObject(By.text("RENTAL CLIENT")), 9000);
         Assert.assertNotEquals("Test Case Failed...No Match found", "no", matchNameString.toLowerCase());
         String postMatchName = device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "lbl_name")).getText();
-        Assert.assertEquals("Test Case Failed...Match should have had been found with", "dialectic teest", postMatchName.toLowerCase());
+        Assert.assertEquals("Test Case Failed...Match should have had been found with", "dialectic test", postMatchName.toLowerCase());
+
+        device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "btn_close")).click();
+        Utils.markPostExpired(device);
     }
 
     @Test
@@ -164,6 +175,11 @@ public class Matches {
                 .childSelector(new UiSelector().index(1))).click();
         device.findObject(By.text("7")).click();
         device.findObject(By.text("5")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
         clickButton(device);
         device.wait(Until.findObject(By.text("Min Carpet Area")), 2000);
         device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "txt_carpet_area")
@@ -189,6 +205,9 @@ public class Matches {
         device.wait(Until.findObject(By.text("RESALE CLIENT")), 9000);
         Assert.assertNotEquals("Test Case Failed...No Match found", "no", matchNameString.toLowerCase());
         String postMatchName = device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "lbl_name")).getText();
-        Assert.assertEquals("Test Case Failed...Match should have had been found with", "dialectic teest", postMatchName.toLowerCase());
+        Assert.assertEquals("Test Case Failed...Match should have had been found with", "dialectic test", postMatchName.toLowerCase());
+
+        device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "btn_close")).click();
+        Utils.markPostExpired(device);
     }
 }

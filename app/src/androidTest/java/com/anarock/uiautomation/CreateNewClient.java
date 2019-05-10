@@ -23,17 +23,8 @@ public class CreateNewClient {
     private  UiDevice device;
 
     @Before
-    public void setup() throws UiObjectNotFoundException {
-        device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        Context context = InstrumentationRegistry.getContext();
-        final Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.dialectic.brokernetworkapp",
-                "com.anarock.brokernetworkapp.ui.SplashActivity"));
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-        device.wait(Until.hasObject(By.pkg("com.dialectic.brokernetworks").depth(0)),
-                2000);
+    public void setup() {
+        device = Utils.beforeClass();
     }
 
     @Test
@@ -57,6 +48,9 @@ public class CreateNewClient {
 
         device.findObject(By.text("2")).click();
         device.findObject(By.text("5")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
         clickButton(device);
         device.wait(Until.findObject(By.text("Building Names")), 2000);
         device.findObject(By.text("ADD BUILDING")).click();
@@ -72,6 +66,8 @@ public class CreateNewClient {
         device.findObject(By.text("POST")).click();
         device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "btn_close")).click();
 
+        Utils.markPostExpired(device);
+
         //Test to create resale client requirement post
         device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "btn_create_post")).click();
         device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "lbl_resale_client")).click();
@@ -85,6 +81,11 @@ public class CreateNewClient {
 
         device.findObject(By.text("7")).click();
         device.findObject(By.text("5")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
+        device.findObject(By.text("0")).click();
         clickButton(device);
         device.wait(Until.findObject(By.text("Min Carpet Area")), 2000);
         device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "txt_carpet_area")
@@ -105,6 +106,8 @@ public class CreateNewClient {
         device.wait(Until.findObject(By.text("POST").enabled(true)), 10000);
         device.findObject(By.text("POST")).click();
         device.findObject(new UiSelector().resourceId(Utils.PACKAGE_NAME_PREFIX + "btn_close")).click();
+
+        Utils.markPostExpired(device);
     }
 
     public static void clickButton(UiDevice device) {
